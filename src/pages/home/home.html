@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="\src\assets\frontend_assets\assets.js">
+</head>
+<body>
+    <div class="homePage">
+        <div class="navbar">
+            <img src="/src/assets/frontend_assets/logo.png" alt="logo" class="logo">
+            <ul class="navbar-menu">
+                <li class="home">home</li>
+                <li class="menu">menu</li>
+                <li class="moblie-app">moblie-app</li>
+                <li class="contact">contact us</li>
+            </ul>
+    
+    
+            <div class="navbar-right">
+                <img src="\src\assets\frontend_assets\search_icon.png" alt=""/>
+                <div class="navbar-search-icon">
+                    <img src="\src\assets\frontend_assets\basket_icon.png" alt=""/>
+                    <div class="dot"></div>
+                </div>
+                <button><a href="\src\pages\loginPage\loginPage.html" class="smooth-transition">Sign in</a></button>
+            </div>
+        </div>
+
+        <div class="hero-sec">
+            <div class="header">
+                <img src="\src\assets\frontend_assets\header_img.png" height="605px" width="1500px" alt="">
+            </div>
+            <div class="header-contents">
+                <h2>Order your favourite food here</h2>
+                <p>Choose from a diverse menu featuring a delectable array of dishes crafted with the finest ingredients and satisfy your cravings and elevate your dinig experience, one delicious meal at a time </p>
+                <button>View Menu</button>
+            </div>
+        </div>
+        <br>
+        <div class="explore-menu" id="explore-menu">
+            <h1>Explore Our menu</h1>
+            <p class="explore-menu-text">Choose from a diverse menu featuring a delectable array of dishes crafted with the finest ingredients and satisfy your cravings and elevate your dinig experience, one delicious meal at a time</p>
+            <div class="explore-menu-list">
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_1.png" alt="">
+                    <p>Salad</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_2.png" alt="">
+                    <p>Rolls</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_3.png" height="120px" width="130px" alt="">
+                    <p>Deserts</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_4.png" alt="">
+                    <p>Sandwitch</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_5.png" alt="">
+                    <p>Cake</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_6.png" alt="">
+                    <p>Pure Veg</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_7.png" alt="">
+                    <p>Pasta</p>
+                </div>
+                <div class="explore-menu-list-item">
+                    <img src="\src\assets\frontend_assets\menu_8.png" alt="">
+                    <p>Noodles</p>
+                </div>
+            </div>
+        </div>
+        <div class="border"></div>
+        <div class="top-dishes">
+            <div class="top-dishes-heading">
+                <h1>Top dishes near you</h1>
+            </div>
+            
+            <div class="top-dishes-menu">
+                <div class="top-dishes-menu-1st-row">
+                    <div id="food_1"></div>
+                    <div id="food_2"></div>
+                    <div id="food_3"></div>
+                    <div id="food_4"></div>
+                </div>
+                <div class="top-dishes-menu-2nd-row">
+                    <div id="food_5"></div>
+                    <div id="food_6"></div>
+                    <div id="food_7"></div>
+                    <div id="food_8"></div>
+                </div>
+                <div class="top-dishes-menu-3rd-row">
+                    <div id="food_9"></div>
+                    <div id="food_10"></div>
+                    <div id="food_11"></div>
+                    <div id="food_12"></div>
+                </div>
+            </div>
+        </div>
+    </hr>
+    </div>
+</body>
+
+<script>
+    const listItems = document.querySelectorAll('li');
+    listItems.forEach(function(item) {
+           item.onclick = function() {
+               // Remove underline from all list items
+               listItems.forEach(function(li) {
+                   li.style.textDecoration = "none";
+               });
+
+               // Add underline to the clicked item
+               this.style.textDecoration = "underline";
+           };
+       });
+
+       //fetching food items
+        async function fetchFoodItems() 
+        {
+            try 
+            {
+                const response = await fetch('http://localhost:5500/api/v1/foodItems/food');  
+                //console.log('API Response:', response); // Fetch data from the API route
+                const food = await response.json(); 
+                //console.log(foodItems);   // Parse the JSON response
+
+                //Get the food list container
+                const foodList1 = document.getElementById("food_1");
+
+                const imageUrl1=`${food[0].photo}`;
+                foodList1.innerHTML = `
+                    <img src="${imageUrl1}" alt="${food[0].foodName}">
+                    <div class="store1">
+                        <h2>${food[0].foodName}</h2>
+                        <h3>$${food[0].pay}</h3>
+                    </div>
+                    <p>${food[0].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList2 = document.getElementById("food_2");
+
+                const imageUrl2=`${food[1].photo}`;
+                foodList2.innerHTML = `
+                    <img src="${imageUrl2}" alt="${food[1].foodName}">
+                    <div class="store2">
+                        <h2>${food[1].foodName}</h2>
+                        <h3>$${food[1].pay}</h3>
+                    </div>
+                    <p>${food[1].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList3 = document.getElementById("food_3");
+
+                const imageUrl3=`${food[2].photo}`;
+                foodList3.innerHTML = `
+                    <img src="${imageUrl3}" alt="${food[2].foodName}">
+                    <div class="store3">
+                        <h2>${food[2].foodName}</h2>
+                        <h3>$${food[2].pay}</h3>
+                    </div>
+                    <p>${food[2].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList4 = document.getElementById("food_4");
+
+                const imageUrl4=`${food[3].photo}`;
+                foodList4.innerHTML = `
+                    <img src="${imageUrl4}" alt="${food[3].foodName}">
+                    <div class="store4">
+                        <h2>${food[3].foodName}</h2>
+                        <h3>$${food[3].pay}</h3>
+                    </div>
+                    <p>${food[3].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList5 = document.getElementById("food_5");
+
+                const imageUrl5=`${food[4].photo}`;
+                foodList5.innerHTML = `
+                    <img src="${imageUrl5}" alt="${food[4].foodName}">
+                    <div class="store5">
+                        <h2>${food[4].foodName}</h2>
+                        <h3>$${food[4].pay}</h3>
+                    </div>
+                    <p>${food[4].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList6 = document.getElementById("food_6");
+
+                const imageUrl6 =`${food[5].photo}`;
+                foodList6.innerHTML = `
+                    <img src="${imageUrl6}" alt="${food[5].foodName}">
+                    <div class="store6">
+                        <h2>${food[5].foodName}</h2>
+                        <h3>$${food[5].pay}</h3>
+                    </div>
+                    <p>${food[5].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList7 = document.getElementById("food_7");
+
+                const imageUrl7 =`${food[6].photo}`;
+                foodList7.innerHTML = `
+                    <img src="${imageUrl7}" alt="${food[6].foodName}">
+                    <div class="store7">
+                        <h2>${food[6].foodName}</h2>
+                        <h3>$${food[6].pay}</h3>
+                    </div>
+                    <p>${food[6].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList8 = document.getElementById("food_8");
+
+                const imageUrl8 =`${food[7].photo}`;
+                foodList8.innerHTML = `
+                    <img src="${imageUrl8}" alt="${food[7].foodName}">
+                    <div class="store8">
+                        <h2>${food[7].foodName}</h2>
+                        <h3>$${food[7].pay}</h3>
+                    </div>
+                    <p>${food[7].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList9 = document.getElementById("food_9");
+
+                const imageUrl9 =`${food[8].photo}`;
+                foodList9.innerHTML = `
+                    <img src="${imageUrl9}" alt="${food[8].foodName}">
+                    <div class="store9">
+                        <h2>${food[8].foodName}</h2>
+                        <h3>$${food[8].pay}</h3>
+                    </div>
+                    <p>${food[8].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList10 = document.getElementById("food_10");
+
+                const imageUrl10 =`${food[9].photo}`;
+                foodList10.innerHTML = `
+                    <img src="${imageUrl10}" alt="${food[9].foodName}">
+                    <div class="store10">
+                        <h2>${food[9].foodName}</h2>
+                        <h3>$${food[9].pay}</h3>
+                    </div>
+                    <p>${food[9].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList11 = document.getElementById("food_11");
+
+                const imageUrl11 =`${food[10].photo}`;
+                foodList11.innerHTML = `
+                    <img src="${imageUrl11}" alt="${food[10].foodName}">
+                    <div class="store11">
+                        <h2>${food[10].foodName}</h2>
+                        <h3>$${food[10].pay}</h3>
+                    </div>
+                    <p>${food[10].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+
+                const foodList12 = document.getElementById("food_12");
+
+                const imageUrl12 =`${food[11].photo}`;
+                foodList12.innerHTML = `
+                    <img src="${imageUrl12}" alt="${food[11].foodName}">
+                    <div class="store12">
+                        <h2>${food[11].foodName}</h2>
+                        <h3>$${food[11].pay}</h3>
+                    </div>
+                    <p>${food[11].description || 'No description available'}</p>
+                    <button>Order</button>
+                `;
+            } 
+            catch (error) 
+            {
+                console.error('Error fetching food items:', error);
+                document.getElementById('foodList').textContent = 'Failed to load food items.';
+            }
+        }
+        fetchFoodItems();
+
+
+
+        document.querySelectorAll('a.smooth-transition').forEach(anchor => {
+            anchor.addEventListener('click', function(event) {
+                event.preventDefault();  // Prevent immediate navigation
+                const destination = this.href;
+
+                // Fade out the current page
+                document.body.classList.add('fade-out');
+
+                // Wait for the fade-out effect before navigating
+                setTimeout(() => {
+                    window.location.href = destination;
+                }, 500);  // Time matches the CSS transition duration (0.5s)
+            });
+        });
+</script>
+</html>

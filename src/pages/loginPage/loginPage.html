@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="loginPage.css">
+    <link rel="stylesheet" href="/src/assets/frontend_assets/assets.css"> <!-- Fixed file extension -->
+</head>
+<body>
+    <div class="navbar">
+        <img src="/src/assets/frontend_assets/logo.png" alt="logo" class="logo">
+        <ul class="navbar-menu">
+            <li class="home"><a href="/src/pages/home/home.html" class="smooth-transition">home</a></li>
+            <li class="menu">menu</li>
+            <li class="moblie-app">moblie-app</li>
+            <li class="contact">contact us</li>
+        </ul>
+        <div class="navbar-right">
+            <img src="/src/assets/frontend_assets/search_icon.png" alt="search"/>
+            <div class="navbar-search-icon">
+                <img src="/src/assets/frontend_assets/basket_icon.png" alt="basket"/>
+                <div class="dot"></div>
+            </div>
+            <button id="signUp_button"><a href="/src/pages/loginPage/loginPage.html">Sign in</a></button>
+            <div id="user_photo" style="display: none;">
+                <img id="user_photo_put" src="">
+            </div>
+        </div>
+    </div>
+    
+    <div class="login-popup">
+        <div class="photo">
+            <img src="/src/assets/frontend_assets/biriyani.jpg" alt="biriyani">
+        </div>
+        <div class="login-popup-container">
+            <div class="login-popup-title">
+                <h2>Sign Up</h2>
+                <img src="/src/assets/frontend_assets/cross_icon.png" alt="close" id="close-popup">
+            </div>
+            <div class="login-popup-input">
+               <form id="step1">
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                    <input type="email" id="email" name="email" placeholder="your email" required>
+                    <input type="password" id="password" name="password" placeholder="password" required>
+                    <button type="button" id="nextStep">Next</button>
+                </form>
+
+               <form id="step2" style="display: none;">
+                    <label for="photo1" class="custom-file-upload">
+                        <div id="custom-file-upload1">
+                            <img src="/src/assets/frontend_assets/user-image-empty.jpeg" height="55px" width="55px" id="custom-file-upload2" alt="Upload Avatar">
+                        </div>
+                    </label>
+                    <input type="file" id="photo1" name="photo1" accept="image/*">
+                    <span id="file-name"></span>
+
+                    <input type="text" id="address" name="address" placeholder="your address" required>
+                    <input type="tel" id="phone" name="phone" placeholder="your phone number" required>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            
+            <div class="login-popup-create">
+                <p>Already have an account?</p>
+                <button>Login Here</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    document.querySelectorAll('a.smooth-transition').forEach(anchor => {
+        anchor.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent immediate navigation
+            const destination = this.href;
+
+            // Fade out the current page
+            document.body.classList.add('fade-out');
+
+            // Wait for the fade-out effect before navigating
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 500);  // Time matches the CSS transition duration (0.5s)
+        });
+    });
+
+    const step1Form = document.getElementById("step1");
+    const nextStepButton = document.getElementById("nextStep");
+    const step2Form = document.getElementById("step2");
+    let userData = {};
+
+    nextStepButton.addEventListener('click', function() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Validate inputs
+        if (name && email && password) {
+            userData = { name, email, password }; // Store user data
+            step1Form.style.display = 'none';
+            step2Form.style.display = 'block';
+        } else {
+            alert("Please fill in all fields.");
+        }
+    });
+
+    step2Form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const avatar = document.getElementById('photo1').files[0];
+        const address = document.getElementById('address').value;
+        const phoneNumber = document.getElementById('phone').value;
+
+        if (avatar && address && phoneNumber) {
+            userData.address = address;
+            userData.phoneNumber = phoneNumber;
+
+            const formData = new FormData();
+            formData.append('name', userData.name);
+            formData.append('email', userData.email);
+            formData.append('password', userData.password);
+            formData.append('avatar', avatar);
+            formData.append('address', userData.address);
+            formData.append('phoneNumber', userData.phoneNumber);
+
+            // Debugging: Log form data to console
+            for (let pair of formData.entries()) {
+                if (pair[1] instanceof File) {
+                    console.log(`${pair[0]}: ${pair[1].name}, size: ${pair[1].size}, type: ${pair[1].type}`);
+                } else {
+                    console.log(`${pair[0]}: ${pair[1]}`);
+                }
+            }
+
+            // Call the sign up function
+            await signUpUser(formData);
+        } else {
+            alert("Please fill in all fields.");
+        }
+    });
+
+    async function signUpUser(formData) {
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/v1/users/signUp', {
+                method: 'POST',
+                body: formData,
+            });
+
+            // Check if the response is okay (status code 2xx)
+            if (!response.ok) {
+                const errorData = await response.json(); // Get error details from the server
+                throw new Error(errorData.message || 'Something went wrong');
+            }
+
+            const data = await response.json(); // Parse the successful response
+
+            if (data.status === 'success') {
+                alert('Sign up successful: ' + data.message);
+                // Further frontend logic, like displaying the user's photo or redirecting
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Sign up failed: ' + error.message);
+        }
+    }
+
+    const profilePic = document.getElementById('custom-file-upload2');
+    const uploadPic = document.getElementById('photo1');
+
+    uploadPic.addEventListener('change', function() {
+        if (uploadPic.files && uploadPic.files[0]) {
+            profilePic.src = URL.createObjectURL(uploadPic.files[0]);
+        }
+    }); 
+</script>
+</html>

@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    color: black;
+    box-sizing: border-box;
+    font-family: Outfit;
+}
+html {
+    scroll-behavior: smooth;
+}
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+.navbar
+{
+    width: 90%;
+    margin: 20px 40px 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-menu
+{
+    display: flex;
+    list-style: none;
+    gap: 50px;
+    color: #49557e;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.navbar-menu a{
+    text-decoration: none;
+}
+.navbar-right
+{
+    display: flex;
+    align-items: center;
+    gap: 40px;  
+}
+.navbar button
+{
+    background: transparent;
+    font-size: 16px;
+    color: #49557e;
+    border: 1px solid tomato;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.navbar-right button a{
+    text-decoration: none;
+}
+.navbar button:hover
+{
+    background-color: #fff4f2;
+}
+
+li {
+    cursor: pointer;
+}
+.navbar-search-icon
+{
+    position: relative;
+}
+.navbar-search-icon .dot
+{
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color: tomato;
+    border-radius: 100%;
+    top: -37px;
+    right: -23px;
+}
+
+.login-popup{
+    width: 1534px;
+    height: 580px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.photo
+{
+    box-shadow: 0px 0px 15px 2px rgb(172, 171, 171);
+    border-radius:10px 0px 0px 10px ;
+}
+.photo img
+{
+    border-radius: 10px 0px 0px 10px;
+}
+.login-popup-container
+{
+    width: 300px;
+    height: 362px;
+    background-color: rgb(248, 245, 245);
+    border-radius: 0px 7px 7px 0px;
+    box-shadow: 0px 0px 15px 2px rgb(172, 171, 171);
+}
+.login-popup-title
+{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.login-popup-title img
+{
+    height: 20px;
+    width: 17px;
+}
+.login-popup-input
+{
+    height: 240px;
+    width: 300px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.login-popup-input input
+{
+    height: 35px;
+    width: 260px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-radius: 6px;
+    border-color: gray;
+    border-width: 0.23px;
+    cursor: pointer;
+    border: 1px solid #f17d09;
+}
+.login-popup-input button
+{
+    width: 270px;
+    height: 40px;
+    background-color: #ff8000;
+    border: none;
+    margin-top: 10px;
+    color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+.login-popup-create
+{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
+.login-popup-create button
+{
+    border: none;
+    margin-left: 5px;
+    color: #ff8000;
+}
+
+#photo1 {
+    display: none;
+}
+.custom-file-upload {
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+}
+#custom-file-upload1 img
+{
+    margin-left: 100px;
+    margin-bottom: 8px;
+}
+#custom-file-upload2
+{
+    border-radius: 50%;
+}
+#file-name {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+#user_photo img
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
